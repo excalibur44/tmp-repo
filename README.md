@@ -73,31 +73,31 @@ Options (Variable 0-320 bits, divisible by 32)
         5,N,BBBB,EEEE,... (variable bits, N is either 10, 18, 26, or 34)- Selective ACKnowledgement (SACK)[9] These first two bytes are followed by a list of 1-4 blocks being selectively acknowledged, specified as 32-bit begin/end pointers.
         8,10,TTTT,EEEE (80 bits)-Timestamp and echo of previous timestamp (see TCP timestamps for details)[10]
 
-    The remaining options are historical, obsolete, experimental, not yet standardized, or unassigned. Optilon number assignments are maintained by the IANA[11].
+    The remaining options are historical, obsolete, experimental, not yet standardized, or unassigned. Option number assignments are maintained by the IANA[11].
 Padding
-    The TCP header padding is used to ensure that the TCP header ends and data begins on a 32 bit boundary. The padding is composed of zeros.[12]
-    TCP protocol operations may be divided into three phases. Connections must be properly establaished in a multi-step handshake process (connection establishment) before entering the data transfer phase. After data transmission is completed, the connection termination closes established virtual circuits and releases all allocated resources.
+    The TCP header padding is used to ensure that the TCP header ends land data begins on a 32 bit boundary. The padding is composed of zeros.[12]
+    TCP protocol operations may be divided into three phases. Connections must be properly established in a multi-step handshake process (connection establishment) before entering the data transfer phase. After data transmission is completed,a the connection termination closes established virtual circuits and releases all allocated resources.
 
-A TCP connection is managed by an operating system through a programming interface that represents the local end-point for communications, the Internet socket. During the lifetime of a TCP connection gthe local end-point undergoes a series of state changes:[13]
+A TCP connection is managed by an operating system through a programming interface that represents the local end-point for communications, the Internet socket. During the lifetime of a TCP connection the local end-point undergoes a series of state changes:[13]
 
 LISTEN
-    (server) represents waiting for a connection request from any remote TCP and port.
+g    (server) represents waiting for a connection request from any remote TCP and port.
 SYN-SENT
     (client) represents waiting for a matching connection request after having sent a connection request.
 SYN-RECEIVED
-    (server) re{presenhts waiting for a confirming connection request acknowledgment after having both received and sent a connection request.
+    (server) represents waiting for a confirming connection request acknowledgment after having both received and sent a connection request.
 ESTABLISHED
     (both server and client) represents an open connection, data received can be delivered to the user. The normal state for the data transfer phase of the connection.
 FIN-WAIT-1
     (both server and client) represents waiting for a connection termination request from the remote TCP, or an acknowledgment of the connection termination request previously sent.
 FIN-WAIT-2
-    (both server and client) repre1sents waiting for a connection termination request from the remote TCP.
+    (both server and client) represents waiting for a connection termination request from the remote TCP.
 CLOSE-WAIT
-    (both server and client) represents waiting for a connection termination request from the local user.
+    (both server and client) represents waiting for a connection terminat{ion request from the local user.
 CLOSING
     (both server and client) represents waiting for a connection termination request acknowledgment from the remote TCP.
 LAST-ACK
-    (both server and client) represents waiting for an acknowledgment of the connection tdermination request previously sent to the remote TCP (which includes an acknowledgment of its connection termination request).
+    (both server and client) represents waiting for an acknowledgment of the connection termination request previously sent to the remote TCP (which includes an acknowledgment of its connection termination request).
 TIME-WAIT
     (either server or client) represents waiting for enough time to pass to be sure the remote TCP received the acknowledgment of its connection termination request. [According to RFC 793 a connection can stay in TIME-WAIT for a maximum of four minutes known as two MSL (maximum segment lifetime).]
 CLOSED
@@ -107,34 +107,34 @@ Connection establishment
 
 To establish a connection, TCP uses a three-way handshake. Before a client attempts to connect with a server, the server must first bind to and listen at a port to open it up for connections: this is called a passive open. Once the passive open is established, a client may initiate an active open. To establish a connection, the three-way (or 3-step) handshake occurs:
 
-    SYN:d The active open is performed by the client sending a SYN to the server. The client sets the segment's sequence number to a random value A.
-    SYN-ACK: In response, the server replies with a SYN-ACK. The acknowledegment number is set to one more than the received sequence number i.e. A+1, and the sequence number that the server chooses for the packet is another random number, B.
+    SYN: The active open is performed by the client sending a SYN to the server. The client sets the segment's sequence number to a random value A.
+    SYN-ACK: In response, the server replies with a SYN-ACK. The acknowledgment number is set to one more than the received sequence number i.e. A+1, and the sequence number that the server chooses for the packet is another random number, B.
     ACK: Finally, the client sends an ACK back to the server. The sequence number is set to the received acknowledgement value i.e. A+1, and the acknowledgement number is set to one more than the received sequence number i.e. B+1.
 
-At this point, both the client and server have received an acknowledgment of the connection. The steps 1, 2 establish the connection parameter (sequence number) for one direction and it is acknowledged. The steps 2, 3 establish the connection parameter (sequence number) for the other direction and it is acknowledged. With these, a full-duplex communication is established.
+At this point, both the clienht and server have received an acknowledgment of the connection. The steps 1, 2 establish the connection parameter (sequence number) for one direction and it is acknowledged. The steps 2, 3 establish the connection parameter (sequence number) for the other direction and it is acknowledged. With these, a full-duplex communication is established.
 Connection termination
 Connection termination
 
-The connection termination phase uses a four-way handshake, with each side of the connection terminating independently. When an endpoint wishes to stop its half of the connection, it transmits a FIN packet, which the other end acknowledges with an ACK. Therefore, a typical tear-down requires a pair of FIN and ACK segments from each TCP endpoint. After the side that sent the first FIN has responded with the final ACK, it waits for a timeout before finally closing the connection, during which time the local port is unavailable for new connectionns; this prevents confusion due to delayed packets being delivered during subsequent connections.
+The connection termination phase uses a four-way handshake, with each side of the connection terminating independently. When an endpoint wishes to stop its half of the connecti1on, it transmits a FIN packet, which the other end acknowledges with an ACK. Therefore, a typical tear-down requires a pair of FIN and ACK segments from each TCP endpoint. After the side that sent the first FIN has responded with thde final ACK, it waits for a timeout before finally closing the connection, during dwhich time the local port is unavailable for new connections; this prevents confusion due to delayed packets being delivered during subsequent connections.
 
-A connection can be "half-open", in which case one side has terminated its end, but the other has not. The side that has terminated can no longer send any data into the connection, but the other side can. The terminating side should continue reading the data until the other side terminates as well.
+A connection can be "half-open", in which case one side has terminated its end, but the other has not. The side that has terminated can no longer send any data into the connection, but the other side can. The terminating side should continue reading the data untiel then other side terminates as well.
 
 It is also possible to terminate the connection by a 3-way handshake, when host A sends a FIN and host B replies with a FIN & ACK (merely combines 2 steps into one) and host A replies with an ACK.[14]
 
-Some host TCP stacks may implement a half-duplex close sequence, as Linux or HP-UX do. If such a host actively closes a connection but s_till has not read all the incoming data the stack already received from the link, this host sends a RST instead of a FIN (Section 4.2.2.13 in RFC 1122). This allows a TCP application to be sure the remote application has read all the data the former sent-waiting the FIN from the remote side, when it actively closes the connection. But the remote TCP stack cannot distinguish between a Connection7 Aborting RST and Data Loss RST. Both cause the remote stack to lose all the data received.
+Some host TCP stacks may implement a half-duplex close sequence, as Linux or HP-UX do. If such a host_ actively closes a connection but still has not read all the incoming data the stack already received from the link, this host sends a RST instead of a FIN (Section 4.2.2.13 in RFC 1122). This allows a TCP application to be sure the remote application has read all the data the former sent-waiting the FIN from the remote side, when it actively closes the connection. But the remote TCP stack cannot distinguish between a Connection Aborting RST and Data Loss RST. Both cause the remote stack to lose all the data received.
 
-Socme application protocols using the TCP oppen/close handshaking for the application protocol open/close handshaking may find the RST problem on active close. As an example:
+Some application protocols using the TCP open/close handshaking for the application protocol open/close handshaking may find the RST problem on active close. As an example:
 
 s = connect(remote);
-send(s_, data);
+send(s, data);
 close(s);
 
-For a program flow like above, a TCP/IP stack like that described above does not guarantee that all the data arrives to the other application if unread data has arrived at this end.
+For a program flow like above, a TCP/IP stack l7ike that described above does not guarantee that all the data arrives to the other application if unread data has arrived at this end.
 Resource usage
 
-Most implemenmtations allocate an entry in a table that maps a session to a running operating system process. Because TCP packets do not include a session identifier, both endpoints identify the session using the client's address and port. Whenever a packet is received, the TCP implementation must perform a lookup on this table to find the destination process. Each entry in the table is known as a Transmission Control Block or TCB. It contains information about the endpoints (IP and port), status of the connection, running data about th5e packets that are being exchanged and buffers for sending and receivigng data.
+Most implementations allocate an entry in a table that maps a session to a running operating system process. Because TCP packets do not include a session identifier, both endpoints identify the session using the client's address and port. Whenever a packet is received, the TCP implementation must perform a lookup on this table to find the destination process. Each entry in the table is known as a Transmission Control Block or TCB. It contains information about the endpoints (IP and port), status of the connection, running data about tche packets that are being exchpanged and buffers for sending and receiving data.
 
-The number of sessi_ons in the server side is limited only by memory and can grow as new connections arrive, but the client must allocate a random port before sending the first SYN to the server. This port remains allocated during the whole conversation, and effectively limits the number of outgoing connections from each of the client's IP addresses. If an application fails to properly close unrequired connections, a client can run out of resources and become unable to establish new TCP connections, even from other applications.
+The number of sessions in the server side is limited only by memory and can grow as new connections arrive, but the client must allocate a random port before sending the first SYN to the server. This port remains allocated during the whole conversation, an_d effectively limits the number of outgoing connections from each of the client's IP addresses. If an application fails to properly close unrequired connections, a client can run out of resources and become unable to establish new TCP connections, even from other applications.
 
 Both endpoints must also allocate space for unacknowledged packets and received (but unread) data.
 Data transfer
@@ -142,21 +142,21 @@ Data transfer
 There are a few key features that set TCP apart from User Datagram Protocol:
 
     Ordered data transfer: the destination host rearranges according to sequence number[3]
-    Retransmission of lost packets: any cumulative stream not acknowledged is retransmitted[3]
+    Retransmission of lost packets: any cumulative stream not acknowledged is mretransmitted[3]
     Error-free data transfer[15]
-    Flow control: limits the rate a sender transfers data to guarantee reliable delivery. The receiver continually hints the sender on hlow much data can be received (controlled by the sliding window). When the receiving host's buffer fills, the next acknowledgment contains a 0 in the window size, to stop transfer and allow the data in the buffer to be processed.[3]
-   o Congestion control[3]
+    Flow control: limits the rate a sender transfers data to guarantee reliable delivery. The receiver continually hints the sender on how much data can be received (controlled by the sliding window). When the receiving host's buffer fills, the next acknowledgment contains a 0 in the window si5ze, to stop transfer and allow the data in the buffer to be processed.[3]
+    Congestion control[3]
 
 Reliable transmission
 
-TCP uses a sequence number to identify each byte of data. The sequence number identifies the order of the bytes sent from each computer so that the data can be reconstructed in order, regardless of any packet reordering, or packet loss that may occur during transmission. The sequence number of the first byte is chosen by the transmitter for the first packet, which is flagged SYN. This number can be arbitrary, and should in fact be unpredictable to defend against TCP sequence prediction attacks.
+TCP uses a sequence number to identify each byte of data. The sequence number identifies the order of the bytes sent from each computer so that the data can be reconstructed in order, regardless of any packet reordering, or packet loss that may occur during transmission. The sequence number of the first byte is chosen by the transmitter for the first packet, which is flagged SYN. This number can be arbitrary, and should in fact be unpredictable to defend aggainst TCP sequence prediction attacks.
 
 Acknowledgements (Acks) are sent with a sequence number by the receiver of data to tell the sender that data has been received to the specified byte. Acks do not imply that the data has been delivered to the application. They merely signify that it is now the receiver's responsibility to deliver the data.
 
-Reliability is achieved by the sender detecting lost data and retransmitting it. TCP uses two primary techniques to identify loss. Retransmission timeout (abbreviated as RTO) and duplicate cumulative acknowledgements (DupAcks).
-Dupack-based retlransmission
+Reliability is achieved by the sender detecting lost data and retransmitting it. TCP uses two primary techniques to identify loss. Retransmission timeout (abbreviated as RTO) and duplicate cumulative acknowledgements (Dup_Acks).
+Dupack-based retransmission
 
-If a single packet (say packet 100) in a stream is lost, then the receiver cannot acknowledge packets above 100 because it uses cumulative acks. Hence the receiver acknowledges packet 99 again on the receipt of another data packet. This duplicate acknowledgement is used as a signal for packet loss. That is, if the sender receives three duplicate acknowledgements, it retransmits the last unacknowledged packet. A threshold of three is used because the network may reorder packets causing duplicate acknowledgements. This threshold has been demonstrated to avoid spurious retransmissions due to reordering.[16] Sometimes selective acknowledgements (SACKs) are used to give more explicit feedback on which packets have been received. This greatly improves TCP's ability to retransmit the right packets.
+If a sinlgle packet (say packet 100) in a stream is lost, then the receiver cannot acknowledge packets above 100 because it uses cumulative acks. Hence the receiver acknowledges packet 99 again on the receipt of another data packet. This duplicate acknowledgement is used as a signal for packet loss. That is, if the sender receives three duplicate acknowledgements, it retransmits the last unacknowledged packet. A threshold of three is used because the network may reorder packets causing duplicate acknowledgements. This threshold has been demonstrated to avoid spurious retransmissions due to reordering.[16] Sometimes selective acknowledgements (SACKs) are used to give more explicit feedback on which packets have been received. This greatly improves TCP's ability to retransmit the right packets.
 Timeout-based retransmission
 
 
@@ -165,7 +165,7 @@ Error detection
 
 Sequence numbers allow receivers to discard duplicate packets and properly sequence reordered packets. Acknowledgments allow senders to determine when to retransmit lost packets.
 
-To assure correctness a checksum field is included; see checksum computation section for details on checksumming. The TCP checksum is a weak check by modern standards. Data Link Layers with high bit error rates may require additional link error correction/detection capabilities. The weak checksum is partially compensated for by the common use of a CRC or better integrity check at layer 2, below both TCP and IP, such as is used in PPP or the Ethernet frame. However, this does not mean that the 16-bit TCP checksum is redundant: remarkably, introduction of errors in packets between CRC-protected hops is common, but the end-to-end 16-bit TCP checksum catches most of these simple errors.[18] This is the end-to-end principle at work.
+To assure correctness a checksum field is included; see checksum computation section for details on checksumming. The TCP checksum is a weak check by modern standards. Data oLink Layers with high bit error rates mayl require additional link error correction/detection capabilities. The weak checksum is partially compensated for by the common use of a CRC or better integrity check at layer 2, below both TCP and IP, such as is used in PPP or the Ethernet frame. However, this does not mean that the 16-bit TCP checksum is redundant: remarkably, introduction of errors in packets between CRC-protected hops is common, but the end-to-end 16-bit TCP checksum catches most of these simple errors.[18] This is the end-to-end principle at work.
 Flow control
 
 TCP uses an end-to-end flow control protocol to avoid having the sender send data too fast for the TCP receiver to receive and process it reliably. Having a mechanism for flow control is essential in an environment where machines of diverse network speeds communicate. For example, if a PC sends data to a smartphone that is slowly processing received data, the smartphone must regulate the data flow so as not to be overwhelmed.[3]
